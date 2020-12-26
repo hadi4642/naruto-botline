@@ -175,7 +175,7 @@ class Webhook extends Controller
                 $this->userGateway->setUserProgress($this->user['user_id'], 1);
                 // send question no.1
                 $this->sendQuestion($event['replyToken'], 1);
-            } else if(strtolower($userMessage) == 'Quotes'){
+            } else if(strtolower($userMessage) == 'quotes'){
                 $this->quotesGateway->getQuotes();
                 $message = "Jangan Menyerah";
                 $textMessageBuilder = new TextMessageBuilder($message);
