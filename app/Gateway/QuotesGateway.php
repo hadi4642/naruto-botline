@@ -4,7 +4,7 @@ namespace App\Gateway;
 
 use Illuminate\Database\ConnectionInterface;
 
-class QuestionGateway
+class QuotesGateway
 {
     /**
      * @var ConnectionInterface
