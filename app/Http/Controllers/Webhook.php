@@ -252,13 +252,13 @@ class Webhook extends Controller
             $textMessageBuilder1 = new TextMessageBuilder($message);
 
             // create sticker message
-            $stickerId = ($this->user['score'] < 8) ? 100 : 114;
+            $stickerId = ($this->user['score'] < 8) ? 100 : 13;
             $stickerMessageBuilder = new StickerMessageBuilder(1, $stickerId);
 
             // create play again message
-            $message = ($this->user['score'] < 8) ?
-                'Wkwkwk! Nyerah? Ketik "MULAI" untuk bermain lagi!':
-                'Great! Mantap bro! Ketik "MULAI" untuk bermain lagi!';
+            $message = ($this->user['score'] < 7) ?
+                'Wkwkw! Anda bukan Naruto Lovers Kalo Skormu cuma segini, Ketik "TEBAK GAMBAR" untuk mencobanya lagi!' :
+                'Mantap Jiwa! Ketik "TEBAK GAMBAR" untuk bermain lagi!';
             $textMessageBuilder2 = new TextMessageBuilder($message);
 
             // merge all message
