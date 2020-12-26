@@ -194,7 +194,7 @@ class Webhook extends Controller
     private function stickerMessage($event)
     {
         // create sticker message
-        $stickerMessageBuilder = new StickerMessageBuilder(1, 105);
+        $stickerMessageBuilder = new StickerMessageBuilder(1, 113);
 
         // create text message
         $message = 'Silakan Pilih Menu "TEBAK GAMBAR" untuk bermain & Menu "QUOTES" untuk mendapatkan kutipan kata di anime Naruto.';
