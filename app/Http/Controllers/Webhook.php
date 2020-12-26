@@ -51,6 +51,10 @@ class Webhook extends Controller
     /**
      * @var array
      */
+    private $quotesGateaway;
+    /**
+     * @var QuotesGateaway
+     */
     private $user;
 
     public function __construct(
@@ -59,7 +63,8 @@ class Webhook extends Controller
         Logger $logger,
         EventLogGateway $logGateway,
         UserGateway $userGateway,
-        QuestionGateway $questionGateway
+        QuestionGateway $questionGateway,
+        QuotesGateaway $quotesGateaway
     ) {
         $this->request = $request;
         $this->response = $response;
@@ -67,6 +72,7 @@ class Webhook extends Controller
         $this->logGateway = $logGateway;
         $this->userGateway = $userGateway;
         $this->questionGateway = $questionGateway;
+        $this->quotesGateaway = $quotesGateaway;
 
         // create bot object
         $httpClient = new CurlHTTPClient(getenv('CHANNEL_ACCESS_TOKEN'));
