@@ -19,6 +19,6 @@ class QuotesGateway
     // Quotes
     function getQuotes()
     {
-        return $this->db->table('quotes')->get('text')->first();
+        return $this->db->table('quotes')->all()->random(1)->first();
     }
 }
