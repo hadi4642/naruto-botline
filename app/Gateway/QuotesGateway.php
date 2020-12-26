@@ -21,7 +21,7 @@ class QuotesGateway
     {
         $quotes = $this->db->table('quotes')
         ->get('text')
-        ->first();
+        ->random();
 
         if ($quotes) {
             return (array) $quotes;
