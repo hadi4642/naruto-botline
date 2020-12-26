@@ -139,7 +139,7 @@ class Webhook extends Controller
 
             // create welcome message
             $message  = "Salam kenal, " . $profile['displayName'] . "!\n";
-            $message .= "Silakan Pilih Menu yang tersedia untuk bermain.";
+            $message .= 'Silakan Pilih Menu "TEBAK GAMBAR" untuk bermain & Menu "QUOTES" untuk mendapatkan kutipan kata di anime Naruto.';
             $textMessageBuilder = new TextMessageBuilder($message);
 
             // create sticker message
@@ -180,7 +180,7 @@ class Webhook extends Controller
                 $textMessageBuilder = new TextMessageBuilder($quotes['text']);
                 $this->bot->replyMessage($event['replyToken'], $textMessageBuilder);
             } else {
-                $message = 'Silakan Pilih Menu yang tersedia untuk bermain.';
+                $message = 'Silakan Pilih Menu "TEBAK GAMBAR" untuk bermain & Menu "QUOTES" untuk mendapatkan kutipan kata di anime Naruto.';
                 $textMessageBuilder = new TextMessageBuilder($message);
                 $this->bot->replyMessage($event['replyToken'], $textMessageBuilder);
             }
@@ -197,7 +197,7 @@ class Webhook extends Controller
         $stickerMessageBuilder = new StickerMessageBuilder(1, 105);
 
         // create text message
-        $message = 'Silakan Pilih Menu yang tersedia untuk bermain.';
+        $message = 'Silakan Pilih Menu "TEBAK GAMBAR" untuk bermain & Menu "QUOTES" untuk mendapatkan kutipan kata di anime Naruto.';
         $textMessageBuilder = new TextMessageBuilder($message);
 
         // merge all message
@@ -257,8 +257,8 @@ class Webhook extends Controller
 
             // create play again message
             $message = ($this->user['score'] < 7) ?
-                'Wkwkw! Anda bukan Naruto Lovers Kalo Skormu cuma segini, Ketik "TEBAK GAMBAR" untuk mencobanya lagi!' :
-                'Mantap Jiwa! Ketik "TEBAK GAMBAR" untuk bermain lagi!';
+                'Wkwkw! Anda bukan Naruto Lovers Kalo Skormu cuma segini, Pilih Menu "TEBAK GAMBAR" untuk mencobanya lagi!' :
+                'Mantap Jiwa! Pilih Menu "TEBAK GAMBAR" untuk bermain lagi!';
             $textMessageBuilder2 = new TextMessageBuilder($message);
 
             // merge all message
