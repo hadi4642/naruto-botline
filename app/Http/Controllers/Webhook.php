@@ -132,11 +132,11 @@ class Webhook extends Controller
 
             // create welcome message
             $message  = "Salam kenal, " . $profile['displayName'] . "!\n";
-            $message .= "Silakan kirim pesan \"MULAI\" untuk memulai kuis Tebak Kode.";
+            $message .= "Silakan Pilih Menu yang tersedia untuk bermain.";
             $textMessageBuilder = new TextMessageBuilder($message);
 
             // create sticker message
-            $stickerMessageBuilder = new StickerMessageBuilder(1, 3);
+            $stickerMessageBuilder = new StickerMessageBuilder(1, 5);
 
             // merge all message
             $multiMessageBuilder = new MultiMessageBuilder();
@@ -204,13 +204,13 @@ class Webhook extends Controller
         $question = $this->questionGateway->getQuestion($questionNum);
 
         // prepare answer options
-        for($opsi = "a"; $opsi <= "d"; $opsi++) {
+        for($opsi = "a"; $opsi <= "c"; $opsi++) {
             if(!empty($question['option_'.$opsi]))
                 $options[] = new MessageTemplateActionBuilder($question['option_'.$opsi], $question['option_'.$opsi]);
         }
 
         // prepare button template
-        $buttonTemplate = new ButtonTemplateBuilder($question['number']."/10", $question['text'], $question['image'], $options);
+        $buttonTemplate = new ButtonTemplateBuilder($question['number']."/10", $question['text'], $options);
 
         // build message
         $messageBuilder = new TemplateMessageBuilder("Gunakan mobile app untuk melihat soal", $buttonTemplate);
