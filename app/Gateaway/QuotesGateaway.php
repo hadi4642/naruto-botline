@@ -19,8 +19,6 @@ class QuestionGateway
     // Question
     function getQuotes()
     {
-        $quotes = $this->db->table('quotes')->all()->random(1);
-
-        return null;
+        return $this->db->table('quotes')->all()->random(1)->first();
     }
 }
