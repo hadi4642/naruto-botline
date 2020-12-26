@@ -176,9 +176,8 @@ class Webhook extends Controller
                 // send question no.1
                 $this->sendQuestion($event['replyToken'], 1);
             } else if(strtolower($userMessage) == 'quotes'){
-                $this->quotesGateway->getQuotes();
-                $message = "Jangan Menyerah";
-                $textMessageBuilder = new TextMessageBuilder($message);
+                $quotes = $this->quotesGateway->getQuotes();
+                $textMessageBuilder = new TextMessageBuilder($quotes['text']);
                 $this->bot->replyMessage($event['replyToken'], $textMessageBuilder);
             } else {
                 $message = 'Silakan Pilih Menu yang tersedia untuk bermain.';
