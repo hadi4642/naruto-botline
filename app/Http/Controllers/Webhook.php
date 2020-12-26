@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Gateway\EventLogGateway;
 use App\Gateway\QuestionGateway;
 use App\Gateway\UserGateway;
+use App\Gateway\QuotesGateaway;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Log\Logger;
@@ -168,6 +169,9 @@ class Webhook extends Controller
                 $this->userGateway->setUserProgress($this->user['user_id'], 1);
                 // send question no.1
                 $this->sendQuestion($event['replyToken'], 1);
+            }else if(strtolower($userMessage) == 'Quotes'){
+                // send quotes
+                $this->QuotesGateaway->getQuotes();
             } else {
                 $message = 'Silakan Pilih Menu yang tersedia untuk bermain.';
                 $textMessageBuilder = new TextMessageBuilder($message);
