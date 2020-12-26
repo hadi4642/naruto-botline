@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Gateway\EventLogGateway;
 use App\Gateway\QuestionGateway;
 use App\Gateway\UserGateway;
+use App\Gateway\QuotesGateway;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Log\Logger;
@@ -48,6 +49,10 @@ class Webhook extends Controller
      */
     private $questionGateway;
     /**
+     * @var QuotesGateway
+     */
+    private $quotesGateway;
+    /**
      * @var array
      */
     private $user;
@@ -58,7 +63,8 @@ class Webhook extends Controller
         Logger $logger,
         EventLogGateway $logGateway,
         UserGateway $userGateway,
-        QuestionGateway $questionGateway
+        QuestionGateway $questionGateway,
+        QuotesGateway $quotesGateway
     ) {
         $this->request = $request;
         $this->response = $response;
@@ -66,6 +72,7 @@ class Webhook extends Controller
         $this->logGateway = $logGateway;
         $this->userGateway = $userGateway;
         $this->questionGateway = $questionGateway;
+        $this->quotesGateway = $quotesGateway;
 
         // create bot object
         $httpClient = new CurlHTTPClient(getenv('CHANNEL_ACCESS_TOKEN'));
@@ -168,6 +175,11 @@ class Webhook extends Controller
                 $this->userGateway->setUserProgress($this->user['user_id'], 1);
                 // send question no.1
                 $this->sendQuestion($event['replyToken'], 1);
+            } else if(strtolower($userMessage) == 'Quotes'){
+                $this->quotesGateway->getQuotes();
+                $message = "Jangan Menyerah";
+                $textMessageBuilder = new TextMessageBuilder($message);
+                $this->bot->replyMessage($event['replyToken'], $textMessageBuilder);
             } else {
                 $message = 'Silakan Pilih Menu yang tersedia untuk bermain.';
                 $textMessageBuilder = new TextMessageBuilder($message);
