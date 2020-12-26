@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Gateway\EventLogGateway;
 use App\Gateway\QuestionGateway;
 use App\Gateway\UserGateway;
-use App\Gateway\QuotesGateway;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Log\Logger;
@@ -47,9 +46,6 @@ class Webhook extends Controller
     /**
      * @var QuestionGateway
      */
-
-    private $quotesGateway;
-
     private $questionGateway;
     /**
      * @var array
@@ -62,8 +58,7 @@ class Webhook extends Controller
         Logger $logger,
         EventLogGateway $logGateway,
         UserGateway $userGateway,
-        QuestionGateway $questionGateway,
-        QuotesGateway $quotesGateway
+        QuestionGateway $questionGateway
     ) {
         $this->request = $request;
         $this->response = $response;
@@ -71,7 +66,6 @@ class Webhook extends Controller
         $this->logGateway = $logGateway;
         $this->userGateway = $userGateway;
         $this->questionGateway = $questionGateway;
-        $this->quotesGateway = $quotesGateway;
 
         // create bot object
         $httpClient = new CurlHTTPClient(getenv('CHANNEL_ACCESS_TOKEN'));
@@ -174,12 +168,6 @@ class Webhook extends Controller
                 $this->userGateway->setUserProgress($this->user['user_id'], 1);
                 // send question no.1
                 $this->sendQuestion($event['replyToken'], 1);
-            }else if(strtolower($userMessage) == 'Quotes'){
-                // send quotes
-                $quotes = $this->quotesGateway->getQuotes($quotesNum);
-                $messageBuilder = new TextMessageBuilder($quotes['text']);
-                $this->bot->replyMessage($event['replyToken'], $messageBuilder);
-
             } else {
                 $message = 'Silakan Pilih Menu yang tersedia untuk bermain.';
                 $textMessageBuilder = new TextMessageBuilder($message);
