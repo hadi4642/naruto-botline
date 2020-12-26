@@ -17,8 +17,16 @@ class QuestionGateway
     }
 
     // Question
-    function getQuotes()
+    function getQuotes(int $quotesNum)
     {
-        return $this->db->table('quotes')->all('text')->random(1)->first();
+        $quotes = $this->db->table('quotes')
+            ->where('id', $quotesNum)
+            ->first();
+
+        if ($quotes) {
+            return (array) $quotes;
+        }
+
+        return null;
     }
 }

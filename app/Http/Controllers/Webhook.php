@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Gateway\EventLogGateway;
 use App\Gateway\QuestionGateway;
 use App\Gateway\UserGateway;
-use App\Gateway\QuotesGateaway;
+use App\Gateway\QuotesGateway;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Log\Logger;
@@ -47,13 +47,12 @@ class Webhook extends Controller
     /**
      * @var QuestionGateway
      */
+
+    private $quotesGateway;
+
     private $questionGateway;
     /**
      * @var array
-     */
-    private $quotesGateaway;
-    /**
-     * @var QuotesGateaway
      */
     private $user;
 
@@ -64,7 +63,7 @@ class Webhook extends Controller
         EventLogGateway $logGateway,
         UserGateway $userGateway,
         QuestionGateway $questionGateway,
-        QuotesGateaway $quotesGateaway
+        QuotesGateway $quotesGateway
     ) {
         $this->request = $request;
         $this->response = $response;
@@ -72,7 +71,7 @@ class Webhook extends Controller
         $this->logGateway = $logGateway;
         $this->userGateway = $userGateway;
         $this->questionGateway = $questionGateway;
-        $this->quotesGateaway = $quotesGateaway;
+        $this->quotesGateway = $quotesGateway;
 
         // create bot object
         $httpClient = new CurlHTTPClient(getenv('CHANNEL_ACCESS_TOKEN'));
@@ -162,7 +161,7 @@ class Webhook extends Controller
         }
     }
 
-    private function textMessage($event)
+    private function textMessage($event, $quotesNum=1)
     {
         $userMessage = $event['message']['text'];
         if($this->user['number'] == 0)
@@ -177,7 +176,10 @@ class Webhook extends Controller
                 $this->sendQuestion($event['replyToken'], 1);
             }else if(strtolower($userMessage) == 'Quotes'){
                 // send quotes
-                $this->QuotesGateaway->getQuotes();
+                $quotes = $this->quotesGateway->getQuotes($quotesNum);
+                $messageBuilder = new TextMessageBuilder($quotes['text']);
+                $this->bot->replyMessage($event['replyToken'], $messageBuilder);
+
             } else {
                 $message = 'Silakan Pilih Menu yang tersedia untuk bermain.';
                 $textMessageBuilder = new TextMessageBuilder($message);
